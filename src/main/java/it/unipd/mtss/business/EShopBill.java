@@ -26,10 +26,25 @@ public class EShopBill implements Bill {
 
         //Attività 1
         double totalPrice = 0;
+        //Attività 2
+        int numProcessori = 0;
+        double minProcessore = -1;
 
         for (EItem item : items) {
             //Attività 1
             totalPrice += item.getPrice();
+            //Attività 2
+            if (item.getItemType().equals(ItemType.Processor)) {
+                numProcessori++;
+                if(minProcessore == -1 || item.getPrice() < minProcessore) {
+                    minProcessore = item.getPrice();
+                }
+            }
+        }
+
+        //Attività 2
+        if(numProcessori > 5) {
+            totalPrice -= minProcessore * 0.5;
         }
 
         return totalPrice;
