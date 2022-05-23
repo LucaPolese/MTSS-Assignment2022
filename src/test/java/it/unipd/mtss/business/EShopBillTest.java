@@ -315,4 +315,43 @@ public class EShopBillTest {
         //Assert
         assertEquals(1000 , totale, delta);
     }
+
+    /* Attività 6: Non è possibile avere un’ordinazione con più di 30 elementi (se accade prevedere un messaggio d’errore)*/
+    // Controllo che la funzione ritorni un messaggio di errore se il numero di prodotti nell'ordine supera i 30
+    @Test
+    public void testNumeroProdottiMaggioreDi30() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem tastiera = new EItem(ItemType.Keyboard, "Logitech",100.0);
+        for(int i=0; i<31; i++){
+            ordini.add(tastiera);
+        }
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        try{
+           double totale = conto.getOrderPrice(ordini,utente,ora); 
+        }catch(BillException e){
+        //Assert
+            assertEquals("Ordine con più di 30 articoli", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testNumeroProdottiEsattamenteUgualeA30_EccezioneNonLanciata() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem tastiera = new EItem(ItemType.Keyboard, "Logitech",10.0);
+        for(int i=0; i<30; i++){
+            ordini.add(tastiera);
+        }
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert
+        assertEquals(300, totale, delta);
+    }
 }

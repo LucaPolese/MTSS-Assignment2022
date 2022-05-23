@@ -54,4 +54,14 @@ public class BillExceptionTest {
         //Assert
         assertEquals("Il tempo è nullo", message);
     }
+
+    @Test
+    public void testOver30items() {
+        //Arrange
+        BillException e = BillException.over30items();
+        //Act
+        String message = e.getMessage().toString();
+        //Assert
+        assertEquals("Ordine con più di 30 articoli", message);
+    }
 }
