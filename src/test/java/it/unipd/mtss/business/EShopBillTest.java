@@ -179,4 +179,41 @@ public class EShopBillTest {
         //Assert
         assertEquals(500, totale, delta);
     }
+
+    /* Attività 3: Se l'ordine ha più di 10 Mouse il meno caro viene regalato*/
+    // Controllo che la somma totale aspettata, con regalo del mouse meno caro, corrisponda a quanto calcolato dalla funzione, in seguito all'ordine di 11 o più mouse 
+    //
+    @Test
+    public void testCalcoloTotale_RegaloPerOrdiniConPiuDi10Mouse() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem mouse = new EItem(ItemType.Mouse, "Logitech",50.0);
+        for(int i=0; i<11; i++){
+            ordini.add(mouse);
+        }
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert
+        assertEquals(500 , totale, delta);
+    }
+
+    @Test
+    public void testCalcoloTotale_NoRegaloPerOrdiniDiEsattamente10Mouse() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem mouse = new EItem(ItemType.Mouse, "Logitech",50.0);
+        for(int i=0; i<10; i++){
+            ordini.add(mouse);
+        }
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert
+        assertEquals(500 , totale, delta);
+    }
 }
