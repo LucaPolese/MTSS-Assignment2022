@@ -539,4 +539,50 @@ public class EShopBillTest {
         // Assert
         assertEquals(29.99, totale, delta);
     }
+
+    /* Test finali */
+    // Controllo che la somma totale aspettata, con regalo del prodotto meno caro, corrisponda a quanto calcolato dalla funzione, in seguito all'ordine di 11 o più mouse e tastiere
+    @Test
+    public void testCalcoloTotale_OrdiniStessoNumeroMouseTastierePiuDi10ConSconto() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem mouse = new EItem(ItemType.Mouse, "Logitech",50.0);
+        for(int i=0; i<11; i++){
+            ordini.add(mouse);
+        }
+
+        EItem tastiere = new EItem(ItemType.Keyboard, "Logitech",100.0);
+        for(int i=0; i<11; i++){
+            ordini.add(tastiere);
+        }
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert -> [11*50 + 11*100 - 50 (stesso # mouse e tastiere) - 50 (>10 mouse)]*0.9 (sconto del 10% costo > 1000)) 
+        assertEquals(1395 , totale, delta);
+    }
+
+    @Test
+    public void testCalcoloTotale_OrdiniConTotaleMaggioreDi1000ConSconto() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem tastiera = new EItem(ItemType.Keyboard, "Logitech",100.0);
+        for(int i=0; i<7; i++){
+            ordini.add(tastiera);
+        }
+
+        EItem mouse = new EItem(ItemType.Processor, "Intel",200);
+        for(int i=0; i<6; i++){
+            ordini.add(mouse);
+        }
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert
+        assertEquals(1620, totale, delta);
+    }
 }
