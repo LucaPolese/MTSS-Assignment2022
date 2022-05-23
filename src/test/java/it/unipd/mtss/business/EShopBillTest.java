@@ -385,4 +385,158 @@ public class EShopBillTest {
         //Assert
         assertEquals(10 , totale, delta);
     }
+
+    /* Attività 8: Prevedere la possibilità di regalare, in modo casuale, 10 ordini effettuati dalle 18:00 alle 19:00 da utenti minorenni differenti.*/
+    //Test che controlla che la funzione ritorni spesa 0, se l'utente passato alla funzione viene scelto in modo casuale, per ricevere in regalo l'ordine (se l'utente è minorenne e l'ordine è effettuato dalle 18:00 alle 19:00)
+    @Test
+    public void testRegaloOrdine_UtenteMinorenneOrarioOrdineFra18E19() throws BillException {
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 17);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem tastiera = new EItem(ItemType.Keyboard, "Logitech", 29.99);
+        ordini.add(tastiera);
+        LocalTime ora = LocalTime.of(18, 30);
+        // Act
+        conto.setSeed(1);
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        // Assert
+        assertEquals(0, totale, delta);
+    }
+
+    @Test
+    public void testRegaloOrdine_UndicesimoUtenteMinorenneGiaRegalato10Ordini() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        List<EItem> ordini1 = new ArrayList<EItem>();
+        List<EItem> ordini2 = new ArrayList<EItem>();
+        List<EItem> ordini3 = new ArrayList<EItem>();
+        List<EItem> ordini4 = new ArrayList<EItem>();
+        List<EItem> ordini5 = new ArrayList<EItem>();
+        List<EItem> ordini6 = new ArrayList<EItem>();
+        List<EItem> ordini7 = new ArrayList<EItem>();
+        List<EItem> ordini8 = new ArrayList<EItem>();
+        List<EItem> ordini9 = new ArrayList<EItem>();
+        List<EItem> ordini10 = new ArrayList<EItem>();
+        List<EItem> ordini11 = new ArrayList<EItem>();
+        User utente1 = new User("Mario", "Rossi", 17);
+        User utente2 = new User("Mario", "Rossi", 17);
+        User utente3 = new User("Mario", "Rossi", 17);
+        User utente4 = new User("Mario", "Rossi", 17);
+        User utente5 = new User("Mario", "Rossi", 17);
+        User utente6 = new User("Mario", "Rossi", 17);
+        User utente7 = new User("Mario", "Rossi", 17);
+        User utente8 = new User("Mario", "Rossi", 17);
+        User utente9 = new User("Mario", "Rossi", 17);
+        User utente10 = new User("Mario", "Rossi", 17);
+        User utente11 = new User("Mario", "Rossi", 17);
+        
+        EItem tastiera = new EItem(ItemType.Keyboard, "Logitech", 30);
+        LocalTime ora = LocalTime.of(18, 30);
+        double totale = 0;
+        ordini1.add(tastiera);
+        ordini2.add(tastiera);
+        ordini3.add(tastiera);
+        ordini4.add(tastiera);
+        ordini5.add(tastiera);
+        ordini6.add(tastiera);
+        ordini7.add(tastiera);
+        ordini8.add(tastiera);
+        ordini9.add(tastiera);
+        ordini10.add(tastiera);
+        ordini11.add(tastiera);
+        //Act
+        conto.setSeed(1);
+        totale += conto.getOrderPrice(ordini1,utente1,ora); 
+        conto.setSeed(1);
+        totale += conto.getOrderPrice(ordini2,utente2,ora);
+        conto.setSeed(1);
+        totale += conto.getOrderPrice(ordini3,utente3,ora);
+        conto.setSeed(1);
+        totale += conto.getOrderPrice(ordini4,utente4,ora);
+        conto.setSeed(1);
+        totale += conto.getOrderPrice(ordini5,utente5,ora);
+        conto.setSeed(1);
+        totale += conto.getOrderPrice(ordini6,utente6,ora);
+        conto.setSeed(1);
+        totale += conto.getOrderPrice(ordini7,utente7,ora);
+        conto.setSeed(1);
+        totale += conto.getOrderPrice(ordini8,utente8,ora);
+        conto.setSeed(1);
+        totale += conto.getOrderPrice(ordini9,utente9,ora);
+        conto.setSeed(1);
+        totale += conto.getOrderPrice(ordini10,utente10,ora);
+        conto.setSeed(1);
+        totale += conto.getOrderPrice(ordini11,utente11,ora);
+        // Assert
+        assertEquals(30, totale, delta);
+    }
+
+    @Test
+    public void testRegaloOrdine_UtenteMaggiorenneOrarioOrdineFra18E19() throws BillException {
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 19);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem tastiera = new EItem(ItemType.Keyboard, "Logitech", 29.99);
+        ordini.add(tastiera);
+        LocalTime ora = LocalTime.of(18, 30);
+        // Act
+        conto.setSeed(1);
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        // Assert
+        assertEquals(29.99, totale, delta);
+    }
+
+    @Test
+    public void testRegaloOrdine_DueOrdiniStessoUtenteMinorenneOrarioFra18E19() throws BillException {
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 17);
+        List<EItem> ordini1 = new ArrayList<EItem>();
+        List<EItem> ordini2 = new ArrayList<EItem>();
+        EItem tastiera = new EItem(ItemType.Keyboard, "Logitech", 29.99);
+        ordini1.add(tastiera);
+        ordini2.add(tastiera);
+        LocalTime ora = LocalTime.of(18, 30);
+        // Act
+        conto.setSeed(1);
+        double totale = conto.getOrderPrice(ordini1,utente,ora);
+        conto.setSeed(1);
+        totale += conto.getOrderPrice(ordini2,utente,ora);
+        // Assert
+        assertEquals(29.99, totale, delta);
+    }
+
+    @Test
+    public void testRegaloOrdine_UtenteMinorenneOrarioOrdinePrimaDelle18() throws BillException {
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 17);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem tastiera = new EItem(ItemType.Keyboard, "Logitech", 29.99);
+        ordini.add(tastiera);
+        LocalTime ora = LocalTime.of(15, 30);
+        // Act
+        conto.setSeed(1);
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        // Assert
+        assertEquals(29.99, totale, delta);
+    }
+
+    @Test
+    public void testRegaloOrdine_UtenteMinorenneOrarioOrdineDopoLe19() throws BillException {
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 17);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem tastiera = new EItem(ItemType.Keyboard, "Logitech", 29.99);
+        ordini.add(tastiera);
+        LocalTime ora = LocalTime.of(20, 30);
+        // Act
+        conto.setSeed(1);
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        // Assert
+        assertEquals(29.99, totale, delta);
+    }
 }
