@@ -216,4 +216,66 @@ public class EShopBillTest {
         //Assert
         assertEquals(500 , totale, delta);
     }
+
+    /* Attività 4: Se vengono ordinati lo stesso numero di Mouse e Tastiere viene regalato l’articolo meno caro*/
+    // Controllo che la somma totale aspettata, con regalo del prodotto meno caro, corrisponda a quanto calcolato dalla funzione, in seguito all'ordine dello stesso numero di mouse e tastiere (>0 && <=10)
+    @Test
+    public void testCalcoloTotale_RegaloPerOrdiniStessoNumeroMouseETastiereMinoreUguale10() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem mouse = new EItem(ItemType.Mouse, "Logitech",50.0);
+        for(int i=0; i<5; i++){
+            ordini.add(mouse);
+        }
+        EItem tastiere = new EItem(ItemType.Keyboard, "Logitech",100.0);
+        for(int i=0; i<5; i++){
+            ordini.add(tastiere);
+        }
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert
+        assertEquals(700 , totale, delta);
+    }
+
+    // Controllo che la somma totale aspettata, sia uguale alla somma del prezzo delle singole componenti, e che non venga sottratto il prezzo del mouse/tastiera meno caro, nel caso di 0 mouse e 0 tastiere
+    @Test
+    public void testCalcoloTotale_PerOrdini0Mouse0Tastiere() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem processore = new EItem(ItemType.Processor, "Logitech",50.0);
+        ordini.add(processore);
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert
+        assertEquals(50 , totale, delta);
+    }
+
+    // Controllo che la somma totale aspettata, sia uguale alla somma del prezzo delle singole componenti, e che non venga sottratto il prezzo del mouse/tastiera meno caro, nel caso di quantità diverse di mouse e tastiere (>0 && <=10)
+    @Test
+    public void testCalcoloTotale_PerOrdiniDiversoNumeroMouseTastiereMinoreUgualeA10() 
+    throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem mouse = new EItem(ItemType.Mouse, "Logitech",50.0);
+        for(int i=0; i<5; i++){
+            ordini.add(mouse);
+        }
+        EItem tastiere = new EItem(ItemType.Keyboard, "Logitech",100.0);
+        for(int i=0; i<6; i++){
+            ordini.add(tastiere);
+        }
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert
+        assertEquals(850 , totale, delta);
+    }
 }
