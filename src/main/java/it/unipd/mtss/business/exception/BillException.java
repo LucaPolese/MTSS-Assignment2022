@@ -30,4 +30,7 @@ public class BillException extends Exception{
         return new BillException("Il tempo è nullo");
     }
     
+    public static BillException over30items() {
+        return new BillException("Ordine con più di 30 articoli");
+    }
 }

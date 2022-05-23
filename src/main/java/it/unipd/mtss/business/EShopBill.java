@@ -97,6 +97,10 @@ public class EShopBill implements Bill {
             throw BillException.emptyOrder();
         }
 
+        if (items.size() > 30) {
+            throw BillException.over30items();
+        }
+
         for (EItem item : items) {
             if (item == null) {
                 throw BillException.nullEItem();
