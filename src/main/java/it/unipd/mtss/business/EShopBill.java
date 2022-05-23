@@ -74,6 +74,10 @@ public class EShopBill implements Bill {
         if(numTastiere == numMouse && numTastiere > 0) {
             totalPrice -= minArticolo;
         }
+        //Attività 5
+        if(totalPrice > 1000) {
+            totalPrice = totalPrice * 0.9;
+        }
 
         return totalPrice;
     }
