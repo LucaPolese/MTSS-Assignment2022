@@ -78,6 +78,10 @@ public class EShopBill implements Bill {
         if(totalPrice > 1000) {
             totalPrice = totalPrice * 0.9;
         }
+        //Attività 7
+        if(totalPrice < 10) {
+            totalPrice += 2;
+        }
 
         return totalPrice;
     }
