@@ -29,6 +29,9 @@ public class EShopBill implements Bill {
         //Attività 2
         int numProcessori = 0;
         double minProcessore = -1;
+        //Attività 3
+        int numMouse = 0;
+        double minMouse = -1;
 
         for (EItem item : items) {
             //Attività 1
@@ -40,11 +43,22 @@ public class EShopBill implements Bill {
                     minProcessore = item.getPrice();
                 }
             }
+            //Attività 3
+            if (item.getItemType().equals(ItemType.Mouse)) {
+                numMouse++;
+                if(minMouse == -1 || item.getPrice() < minMouse) {
+                    minMouse = item.getPrice();
+                }
+            }
         }
 
         //Attività 2
         if(numProcessori > 5) {
             totalPrice -= minProcessore * 0.5;
+        }
+        //Attività 3
+        if(numMouse > 10) {
+            totalPrice -= minMouse;
         }
 
         return totalPrice;
