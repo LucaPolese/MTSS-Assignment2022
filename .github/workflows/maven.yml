@@ -14,5 +14,9 @@ jobs:
           distribution: 'temurin'
           java-version: '8.0.332+9'
           cache: 'maven'
-      - name: Build Maven
-        run: mvn -B clean install --file pom.xml 
+      #Build Maven con Report JaCoCo
+      - name: Build con Maven
+        run: mvn -B clean install --file pom.xml jacoco:report 
+      #Report Coverall, con Token preso da Secrets
+      - name: Coverall Coverage Report
+        run: mvn coveralls:report --define repoToken=${{ secrets.COVERALLS_TOKEN }}
