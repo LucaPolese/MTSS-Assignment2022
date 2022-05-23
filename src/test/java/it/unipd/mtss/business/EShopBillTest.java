@@ -354,4 +354,35 @@ public class EShopBillTest {
         //Assert
         assertEquals(300, totale, delta);
     }
+
+    /*Attività 7: Se l’importo totale è inferiore a 10 € viene aggiunta una commissione di 2€ */
+    @Test
+    public void testCalcoloTotale_PrezzoTotaleProdottiMinoreDi10() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem mouse = new EItem(ItemType.Mouse, "Logitech", 9.99);
+        ordini.add(mouse);
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert
+        assertEquals(11.99 , totale, delta);
+    }
+
+    @Test
+    public void testCalcoloTotale_PrezzoTotaleProdottiEsattamenteUgualeA10() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem mouse = new EItem(ItemType.Mouse, "Logitech", 10);
+        ordini.add(mouse);
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert
+        assertEquals(10 , totale, delta);
+    }
 }
