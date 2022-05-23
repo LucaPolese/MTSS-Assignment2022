@@ -141,4 +141,42 @@ public class EShopBillTest {
             assertEquals("L'utente è nullo", e.getMessage());
         }
     }
+
+    /* Attività 2: Se l'ordine ha più di 5 Processori il meno caro viene scontato del 50% */
+    // Controllo che la somma totale aspettata, con sconto del 50% sul processore meno caro, corrisponda a quanto calcolato dalla funzione, in seguito all'ordine di 6 o più processori
+    @Test
+    public void testCalcoloTotale_OrdiniConPiuDi5Processori() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem processore = new EItem(ItemType.Processor, "Intel",100.0);
+        for(int i=0; i<6; i++){
+            ordini.add(processore);
+        }
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert
+        assertEquals(550, totale, delta);
+    }
+
+    // Controllo che la somma totale aspettata, corrisponda a quanto calcolato dalla funzione, in seguito all'ordine di esattamente 5 (quindi non si applica lo sconto)
+    @Test
+    public void testCalcoloTotale_OrdiniConEsattamente5Processori() 
+    throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem processore = new EItem(ItemType.Processor, "Intel",100.0);
+        for(int i=0; i<5; i++){
+            ordini.add(processore);
+        }
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert
+        assertEquals(500, totale, delta);
+    }
 }
