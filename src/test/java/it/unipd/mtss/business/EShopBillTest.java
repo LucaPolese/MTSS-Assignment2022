@@ -278,4 +278,41 @@ public class EShopBillTest {
         //Assert
         assertEquals(850 , totale, delta);
     }
+
+    /* Attività 5: Se l’importo totale degli articoli supera i 1000 euro viene fatto uno sconto del 10% sul totale*/
+    // Controllo che la somma totale aspettata, con sconto del 10%, corrisponda a quanto calcolato dalla funzione, in seguito al totale maggiore di 1000
+    @Test
+    public void testCalcoloTotale_OrdiniConTotaleMaggioreDi1000() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem tastiera = new EItem(ItemType.Keyboard, "Logitech",100.0);
+        for(int i=0; i<11; i++){
+            ordini.add(tastiera);
+        }
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert
+        assertEquals(990 , totale, delta);
+    }
+
+    // Controllo che la somma totale aspettata, senza sconto del 10%, corrisponda a quanto calcolato dalla funzione, in seguito al totale uguale a 1000
+    @Test
+    public void testCalcoloTotale_OrdiniConTotaleUgualeA1000() throws BillException{
+        //Arrange
+        EShopBill conto = new EShopBill();
+        User utente = new User("Mario", "Rossi", 22);
+        List<EItem> ordini = new ArrayList<EItem>();
+        EItem tastiera = new EItem(ItemType.Keyboard, "Logitech",100.0);
+        for(int i=0; i<10; i++){
+            ordini.add(tastiera);
+        }
+        LocalTime ora = LocalTime.of(00, 00);
+        //Act
+        double totale = conto.getOrderPrice(ordini,utente,ora);
+        //Assert
+        assertEquals(1000 , totale, delta);
+    }
 }
