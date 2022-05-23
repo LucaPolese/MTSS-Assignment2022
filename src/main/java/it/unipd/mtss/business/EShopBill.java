@@ -32,6 +32,9 @@ public class EShopBill implements Bill {
         //Attività 3
         int numMouse = 0;
         double minMouse = -1;
+        //Attività 4
+        int numTastiere = 0;
+        double minArticolo = -1;
 
         for (EItem item : items) {
             //Attività 1
@@ -50,6 +53,13 @@ public class EShopBill implements Bill {
                     minMouse = item.getPrice();
                 }
             }
+            //Attività 4
+            if (item.getItemType().equals(ItemType.Keyboard)) {
+                numTastiere++;
+            }
+            if(minArticolo == -1 || item.getPrice() < minArticolo) {
+                minArticolo = item.getPrice();
+            }
         }
 
         //Attività 2
@@ -59,6 +69,10 @@ public class EShopBill implements Bill {
         //Attività 3
         if(numMouse > 10) {
             totalPrice -= minMouse;
+        }
+        //Attività 4
+        if(numTastiere == numMouse && numTastiere > 0) {
+            totalPrice -= minArticolo;
         }
 
         return totalPrice;
