@@ -83,6 +83,11 @@ public class EShopBill implements Bill {
             totalPrice += 2;
         }
 
+        //Attività 8
+        if(giftAnOrderTo10Users(user,time)) {
+            totalPrice = 0;
+        }
+
         return totalPrice;
     }
 
@@ -114,5 +119,39 @@ public class EShopBill implements Bill {
             }
         }
 
+    }
+
+    private boolean giftAnOrderTo10Users(User user, LocalTime time) 
+    throws BillException {
+        //Controllo i dati in ingresso
+
+        //Se la size di utentiRegalo è minore di 10
+        //Se l'utente NON è nella lista 
+        //Se l'orario è tra le 18 e le 19
+        if(utentiRegalo.size()<10 
+        && checkGiveawayTime(time) 
+        && !utentiRegalo.contains(user) 
+        && randomValueBetweenZeroAndOne() == 1) {
+            boolean userIsMinor = user.getEta() < 18;
+            //Se l'utente è minorenne
+            if (userIsMinor) {
+                utentiRegalo.add(user);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkGiveawayTime(LocalTime ora) {
+        return ora.isAfter(LocalTime.of(18, 00)) 
+        && ora.isBefore(LocalTime.of(19, 00));
+    }
+
+    private int randomValueBetweenZeroAndOne() {
+        return random.nextInt(2);
+    }
+
+    public void setSeed(long seed) {
+        random.setSeed(seed);
     }
 }
